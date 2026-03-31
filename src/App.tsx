@@ -1,5 +1,5 @@
-/**
- * @license
+
+/** @license
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -27,7 +27,7 @@ import {
 import { motion, AnimatePresence } from "motion/react";
 import { GLOSSARY, GlossaryTerm } from "./constants";
 
-type Section = "intro" | "overview" | "flow" | "product" | "matrix" | "customer" | "returns" | "accounting" | "glossary" | "refunds" | "materials" | "samples" | "questions";
+type Section = "intro" | "overview" | "flow" | "product" | "matrix" | "customer" | "returns" | "returns-flow" | "accounting" | "glossary" | "refunds" | "materials" | "samples" | "channels" | "questions";
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<Section>("intro");
@@ -41,10 +41,12 @@ export default function App() {
     { id: "matrix", label: "Matrix Products", icon: Boxes },
     { id: "customer", label: "Customer Sync", icon: Users },
     { id: "samples", label: "Samples & Influencers", icon: CheckCircle2 },
+    { id: "returns-flow", label: "Returns & Refunds Flow", icon: RotateCcw },
+    { id: "materials", label: "Stock & Inventory", icon: Boxes },
+    { id: "channels", label: "Amazon & Shopware", icon: ShoppingCart },
     { id: "returns", label: "Returns & Credit Notes", icon: RotateCcw },
     { id: "accounting", label: "Accounting", icon: Calculator },
     { id: "refunds", label: "Refunds", icon: CreditCard },
-    { id: "materials", label: "Materials & Positions", icon: Boxes },
     { id: "glossary", label: "Glossary (50 Terms)", icon: BookOpen },
     { id: "questions", label: "Questions & Next Steps", icon: HelpCircle },
   ];
@@ -132,10 +134,12 @@ export default function App() {
             {activeSection === "matrix" && <MatrixSection />}
             {activeSection === "customer" && <CustomerSection />}
             {activeSection === "returns" && <ReturnsSection />}
+            {activeSection === "returns-flow" && <ReturnsFlowSection />}
             {activeSection === "accounting" && <AccountingSection />}
             {activeSection === "refunds" && <RefundsSection />}
             {activeSection === "materials" && <MaterialsSection />}
             {activeSection === "samples" && <SamplesSection />}
+            {activeSection === "channels" && <ChannelsSection />}
             {activeSection === "glossary" && <GlossarySection />}
             {activeSection === "questions" && <QuestionsSection />}
           </motion.div>
@@ -245,7 +249,7 @@ function OverviewSection() {
           Key Challenge: Master Data Discipline
         </h4>
         <p className="text-xs text-orange-800 leading-relaxed">
-          The system is only as good as the data entered. Missing tariff numbers or EANs can break international shipping or warehouse scanning. Search logic is literal and requires precise SKUs.
+          The system is only as good as the data entered. Missing tariff numbers or EANs can break international shipping. <strong>Tax rates must be identical in both systems</strong>—Xentral for invoices and Shopify for VAT calculations. Nothing overrides the other.
         </p>
       </div>
     </div>
@@ -364,14 +368,14 @@ function IntroSection() {
 
 function FlowSection() {
   const steps = [
-    { label: "Shopify", icon: ShoppingCart, desc: "Order placed", color: "text-green-600", bg: "bg-green-50" },
+    { label: "Shopify", icon: ShoppingCart, desc: "Order placed", color: "text-green-600", bg: "bg-green-50", email: "Order Confirmation" },
     { label: "Xentral", icon: Database, desc: "Picks up order", color: "text-indigo-600", bg: "bg-indigo-50" },
-    { label: "Xentral", icon: Mail, desc: "Invoice & DN", color: "text-indigo-600", bg: "bg-indigo-50" },
+    { label: "Xentral", icon: Mail, desc: "Invoice & DN", color: "text-indigo-600", bg: "bg-indigo-50", email: "Invoice PDF" },
     { label: "Zen (Aliko)", icon: Truck, desc: "Fulfillment", color: "text-orange-600", bg: "bg-orange-50" },
-    { label: "Zen (Aliko)", icon: Mail, desc: "Shipping Conf", color: "text-orange-600", bg: "bg-orange-50" },
+    { label: "Zen (Aliko)", icon: Mail, desc: "Shipping Conf", color: "text-orange-600", bg: "bg-orange-50", email: "Tracking Details" },
     { label: "Xentral", icon: CheckCircle2, desc: "Tracking Sync", color: "text-indigo-600", bg: "bg-indigo-50" },
     { label: "Shopify", icon: ShoppingCart, desc: "Confirmation", color: "text-green-600", bg: "bg-green-50" },
-    { label: "Klaviyo", icon: Mail, desc: "Final Email", color: "text-pink-600", bg: "bg-pink-50" },
+    { label: "Klaviyo", icon: Mail, desc: "Marketing Flow", color: "text-pink-600", bg: "bg-pink-50", email: "Follow-up/E-book" },
   ];
 
   const radius = 220;
@@ -475,9 +479,14 @@ function FlowSection() {
                   <step.icon className={step.color} size={24} />
                   
                   {/* Tooltip-like label */}
-                  <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 w-32 text-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                  <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 w-32 text-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                     <p className="text-[10px] font-bold text-gray-900 uppercase leading-none mb-1">{step.label}</p>
-                    <p className="text-[9px] text-gray-500 leading-tight">{step.desc}</p>
+                    <p className="text-[9px] text-gray-500 leading-tight mb-1">{step.desc}</p>
+                    {step.email && (
+                      <p className="text-[8px] text-indigo-500 font-bold bg-indigo-50 rounded px-1 py-0.5 inline-block">
+                        📧 {step.email}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -587,8 +596,18 @@ function CustomerSection() {
   return (
     <div className="space-y-8">
       <div className="space-y-4">
-        <h2 className="text-4xl font-bold text-gray-900">Customer Creation & Sync</h2>
-        <p className="text-gray-500">How customer data flows from storefront to backend.</p>
+        <h2 className="text-4xl font-bold text-gray-900">Customer & Pricing Sync</h2>
+        <p className="text-gray-500">How customer data and pricing hierarchy are managed.</p>
+      </div>
+
+      <div className="bg-orange-50 p-6 rounded-2xl border border-orange-100 mb-6">
+        <h3 className="text-orange-900 font-bold mb-2 flex items-center gap-2">
+          <Calculator size={18} />
+          Pricing Hierarchy: Shopify is Authoritative
+        </h3>
+        <p className="text-xs text-orange-800 leading-relaxed">
+          The price paid by the customer in <strong>Shopify overrides</strong> any price data held in Xentral. Xentral only dictates price for manual B2B orders created directly in the ERP.
+        </p>
       </div>
 
       <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6">
@@ -744,6 +763,28 @@ function AccountingSection() {
             </li>
           </ul>
         </div>
+
+        <div className="bg-red-50 p-8 rounded-3xl border border-red-100 space-y-6 md:col-span-2">
+          <h3 className="text-xl font-bold text-red-900 flex items-center gap-2">
+            <CheckCircle2 size={24} />
+            Tax Parity: The "No Override" Rule
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <h4 className="font-bold text-red-800 text-sm">Xentral Responsibility</h4>
+              <p className="text-xs text-red-700 leading-relaxed">Generates the legal invoice. If tax is wrong here, the <strong>invoice is legally incorrect</strong> and must be cancelled/reissued.</p>
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-bold text-red-800 text-sm">Shopify Responsibility</h4>
+              <p className="text-xs text-red-700 leading-relaxed">Calculates the VAT at checkout. If tax is wrong here, the <strong>VAT collection is incorrect</strong>, leading to tax liability gaps.</p>
+            </div>
+          </div>
+          <div className="p-4 bg-white/50 rounded-xl border border-red-200">
+            <p className="text-xs text-red-900 font-black uppercase tracking-widest text-center">
+              Critical: Nothing overrides anything. Parity is mandatory.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -785,8 +826,8 @@ function MaterialsSection() {
   return (
     <div className="space-y-8">
       <div className="space-y-4">
-        <h2 className="text-4xl font-bold text-gray-900">Positions & Material Control</h2>
-        <p className="text-gray-500">Managing stock levels and safety buffers.</p>
+        <h2 className="text-4xl font-bold text-gray-900">Stock & Inventory Logic</h2>
+        <p className="text-gray-500">Managing stock levels, safety buffers, and manual overrides.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -802,13 +843,22 @@ function MaterialsSection() {
                 <p className="text-xs text-gray-500">Overnight API sync. Overwrites Xentral numbers.</p>
               </div>
             </div>
+            <div className="flex items-center gap-4 p-4 bg-indigo-50 rounded-2xl border border-indigo-100">
+              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
+                <RotateCcw className="text-indigo-600" size={20} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold">Manual Sync Override</h4>
+                <p className="text-xs text-indigo-700">If overnight sync is missed, stock can be manually added in Xentral to enable immediate Shopify sales.</p>
+              </div>
+            </div>
             <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
               <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
                 <ShoppingCart className="text-green-600" size={20} />
               </div>
               <div>
                 <h4 className="text-sm font-bold">Xentral → Shopify</h4>
-                <p className="text-xs text-gray-500">Constant push to keep storefront updated.</p>
+                <p className="text-xs text-gray-500">Constant push (~every 15 mins) to keep storefront updated.</p>
               </div>
             </div>
           </div>
@@ -903,6 +953,145 @@ function SamplesSection() {
   );
 }
 
+function ReturnsFlowSection() {
+  const steps = [
+    { label: "Return Trigger", icon: RotateCcw, desc: "Customer or DHL failure", color: "text-red-600", bg: "bg-red-50" },
+    { label: "Zen (Aliko)", icon: Truck, desc: "Product arrives at warehouse", color: "text-orange-600", bg: "bg-orange-50" },
+    { label: "Customer Email", icon: Mail, desc: "Refund or Re-shipment?", color: "text-indigo-600", bg: "bg-indigo-50" },
+  ];
+
+  return (
+    <div className="space-y-12">
+      <div className="space-y-4">
+        <h2 className="text-4xl font-bold text-gray-900">Returns & Refunds Flow</h2>
+        <p className="text-gray-500">Visualizing the decision tree for reverse logistics.</p>
+      </div>
+
+      <div className="relative flex flex-col items-center gap-8 py-10">
+        {/* Top Part */}
+        <div className="flex items-center gap-12">
+          {steps.map((step, i) => (
+            <div key={i} className="flex items-center gap-12">
+              <div className="flex flex-col items-center text-center w-32">
+                <div className={`w-16 h-16 rounded-full ${step.bg} flex items-center justify-center shadow-lg mb-3`}>
+                  <step.icon className={step.color} size={24} />
+                </div>
+                <p className="text-xs font-bold uppercase tracking-tight">{step.label}</p>
+                <p className="text-[10px] text-gray-500">{step.desc}</p>
+              </div>
+              {i < steps.length - 1 && <ArrowRight className="text-gray-300" size={24} />}
+            </div>
+          ))}
+        </div>
+
+        {/* Decision Split */}
+        <div className="w-full max-w-3xl flex justify-between gap-8 pt-8 border-t border-gray-100 relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-4 py-1 border border-gray-100 rounded-full text-[10px] font-black text-indigo-600 uppercase">Decision</div>
+          
+          {/* Path A: Refund */}
+          <div className="flex-1 bg-white p-6 rounded-3xl border border-gray-100 shadow-sm space-y-4">
+            <h3 className="text-sm font-bold text-red-600 uppercase flex items-center gap-2">
+              <CreditCard size={16} />
+              Path A: Refund
+            </h3>
+            <div className="space-y-3">
+              <div className="p-3 bg-gray-50 rounded-xl text-[11px] border border-gray-100">
+                <span className="font-bold text-gray-700">1. Xentral:</span> CS creates Return & Credit Memo
+              </div>
+              <div className="p-3 bg-indigo-50 rounded-xl text-[11px] border border-indigo-100">
+                <span className="font-bold text-indigo-700">2. Automation:</span> Planned sync triggers Shopify Payout
+              </div>
+              <div className="p-3 bg-gray-50 rounded-xl text-[11px] border border-gray-100">
+                <span className="font-bold text-gray-700">3. Current:</span> Manual trigger in Shopify backend
+              </div>
+            </div>
+          </div>
+
+          {/* Path B: Re-shipment */}
+          <div className="flex-1 bg-white p-6 rounded-3xl border border-gray-100 shadow-sm space-y-4">
+            <h3 className="text-sm font-bold text-green-600 uppercase flex items-center gap-2">
+              <Truck size={16} />
+              Path B: Re-shipment
+            </h3>
+            <div className="space-y-3">
+              <div className="p-3 bg-gray-50 rounded-xl text-[11px] border border-gray-100">
+                <span className="font-bold text-gray-700">1. Xentral:</span> CS tracks return & creates New Shipment
+              </div>
+              <div className="p-3 bg-indigo-50 rounded-xl text-[11px] border border-indigo-100">
+                <span className="font-bold text-indigo-700">2. Logic:</span> First 2 re-shipments are free of charge
+              </div>
+              <div className="p-3 bg-gray-50 rounded-xl text-[11px] border border-gray-100">
+                <span className="font-bold text-gray-700">3. Cycle:</span> Restarts standard Flow (DN → Zen → Ship)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ChannelsSection() {
+  return (
+    <div className="space-y-8">
+      <div className="space-y-4">
+        <h2 className="text-4xl font-bold text-gray-900">Amazon & Shopware Challenges</h2>
+        <p className="text-gray-500">Understanding non-Shopify channel integrations.</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6">
+          <h3 className="text-xl font-bold flex items-center gap-2">
+            <ShoppingCart className="text-orange-600" size={24} />
+            Amazon Integration
+          </h3>
+          <div className="space-y-4">
+            <div className="p-4 bg-orange-50 rounded-2xl border border-orange-100">
+              <h4 className="text-xs font-bold text-orange-900 uppercase mb-1">FBM (Fulfilled by Merchant)</h4>
+              <p className="text-[11px] text-orange-800 leading-relaxed">Orders flow via <strong>Billbee</strong> directly to Zen (Aliko). Used for glass bottles (MCT Oil).</p>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+              <h4 className="text-xs font-bold text-gray-700 uppercase mb-1">FBA (Fulfilled by Amazon)</h4>
+              <p className="text-[11px] text-gray-500 leading-relaxed">Not reflected in Xentral. Data is extracted manually from Amazon Merchant Portal for reporting.</p>
+            </div>
+          </div>
+          <p className="text-xs text-red-500 font-bold italic">"Amazon connection remains a major technical hurdle—no stable direct sync currently."</p>
+        </div>
+
+        <div className="bg-indigo-600 p-8 rounded-3xl text-white space-y-6">
+          <h3 className="text-xl font-bold flex items-center gap-2">
+            <Database size={24} />
+            Shopware Edge Case
+          </h3>
+          <p className="opacity-90 text-sm leading-relaxed">
+            Shopware functions similarly to Shopify but with a critical encryption issue.
+          </p>
+          <div className="space-y-4">
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <Mail size={16} />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm">Encrypted Emails</h4>
+                <p className="text-xs opacity-70">Xentral cannot send invoices directly to Shopware customers due to email encryption.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <RotateCcw size={16} />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm">Manual Weekly Sync</h4>
+                <p className="text-xs opacity-70">Invoices must be manually marked as shipped once per week to sync with the customer's Shopware account.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function GlossarySection() {
   const [search, setSearch] = useState("");
   
@@ -957,10 +1146,15 @@ function QuestionsSection() {
           <ul className="space-y-4">
             {[
               "Multi-Channel: How does Xentral handle stock across multiple Shopify stores or Amazon?",
+              "Batch/MHD: Do we need to track specific batches or Best Before Dates for our products?",
               "Automation: Which manual steps can we automate via 'Process Starter' (e.g. auto-invoice)?",
+              "Custom Fields: Do we need custom attributes in Xentral that aren't in Shopify?",
               "API Limits: What are the rate limits for the Xentral/Shopify sync?",
               "User Roles: Who has access to what? (SCM vs. Accounting vs. Customer Service)",
+              "Tax Parity: How do we audit Xentral and Shopify to ensure 100% tax parity?",
               "Search Optimization: Can we improve the 'abysmal' search results via API queries?",
+              "Discount Logic: How does the new 'Custom Discount App' sync price reductions to Xentral positions?",
+              "Market Routing: How do we handle the move of Luxembourg traffic to the German (D) market in Xentral?"
             ].map((q, i) => (
               <li key={i} className="flex gap-3 text-sm text-gray-600">
                 <HelpCircle size={18} className="text-indigo-400 flex-shrink-0" />
