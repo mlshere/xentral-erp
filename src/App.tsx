@@ -27,7 +27,7 @@ import {
 import { motion, AnimatePresence } from "motion/react";
 import { GLOSSARY, GlossaryTerm } from "./constants";
 
-type Section = "intro" | "overview" | "flow" | "product" | "matrix" | "customer" | "returns" | "returns-flow" | "accounting" | "glossary" | "refunds" | "materials" | "samples" | "channels" | "questions";
+type Section = "intro" | "overview" | "flow" | "product" | "matrix" | "customer" | "returns" | "returns-flow" | "accounting" | "glossary" | "refunds" | "materials" | "samples" | "channels" | "bi" | "scm" | "questions";
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<Section>("intro");
@@ -45,6 +45,8 @@ export default function App() {
     { id: "materials", label: "Stock & Inventory", icon: Boxes },
     { id: "channels", label: "Amazon & ShopApoteke", icon: ShoppingCart },
     { id: "accounting", label: "Accounting", icon: Calculator },
+    { id: "bi", label: "BI & Reporting", icon: Calculator },
+    { id: "scm", label: "SCM & Xentral", icon: Truck },
     { id: "glossary", label: "Glossary (50 Terms)", icon: BookOpen },
     { id: "questions", label: "Questions & Next Steps", icon: HelpCircle },
   ];
@@ -137,6 +139,8 @@ export default function App() {
             {activeSection === "materials" && <MaterialsSection />}
             {activeSection === "samples" && <SamplesSection />}
             {activeSection === "channels" && <ChannelsSection />}
+            {activeSection === "bi" && <BISection />}
+            {activeSection === "scm" && <SCMSection />}
             {activeSection === "glossary" && <GlossarySection />}
             {activeSection === "questions" && <QuestionsSection />}
           </motion.div>
@@ -495,7 +499,7 @@ function MatrixSection() {
 
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 text-center">
         <p className="text-sm text-gray-500 italic">
-          "The Matrix is the container, but the <strong>Variants</strong> are what the customer actually buys and what Aliko actually ships."
+          "The Matrix is the container, but the <strong>Variants</strong> are what the customer actually buys and what Alaiko actually ships."
         </p>
       </div>
     </div>
@@ -515,7 +519,7 @@ function IntroSection() {
           Xentral ERP <span className="text-indigo-600">Integration</span> & Workflows
         </h1>
         <p className="text-xl text-gray-500 max-w-2xl leading-relaxed">
-          A comprehensive guide for the Lead Developer to understand the synchronization between Shopify, Xentral, and Zen (Aliko).
+          A comprehensive guide for the Lead Developer to understand the synchronization between Shopify, Xentral, and Zen (Alaiko).
         </p>
       </div>
 
@@ -543,7 +547,7 @@ function IntroSection() {
             <div className="w-16 h-16 rounded-2xl bg-orange-100 flex items-center justify-center mx-auto mb-3">
               <Truck className="text-orange-600" size={28} />
             </div>
-            <h4 className="font-bold text-gray-900">Zen (Aliko)</h4>
+            <h4 className="font-bold text-gray-900">Zen (Alaiko)</h4>
             <p className="text-xs text-gray-500 mt-1">Warehouse & Fulfillment</p>
             <p className="text-[10px] text-gray-400 mt-2">Stock, Shipping, Returns</p>
           </div>
@@ -630,7 +634,7 @@ function IntroSection() {
           </div>
           <div className="p-3 bg-white/50 rounded-xl border border-red-200">
             <p className="text-xs text-red-800">
-              <strong>Stock Source:</strong> Zen (Aliko) overwrites Xentral nightly. Manual updates are temporary.
+              <strong>Stock Source:</strong> Zen (Alaiko) overwrites Xentral nightly. Manual updates are temporary.
             </p>
           </div>
         </div>
@@ -644,8 +648,8 @@ function FlowSection() {
     { label: "Shopify", icon: ShoppingCart, desc: "Order placed", color: "text-green-600", bg: "bg-green-50", email: "Order Confirmation" },
     { label: "Xentral", icon: Database, desc: "Picks up order", color: "text-indigo-600", bg: "bg-indigo-50" },
     { label: "Xentral", icon: Mail, desc: "Invoice & DN", color: "text-indigo-600", bg: "bg-indigo-50", email: "Invoice PDF" },
-    { label: "Zen (Aliko)", icon: Truck, desc: "Fulfillment", color: "text-orange-600", bg: "bg-orange-50" },
-    { label: "Zen (Aliko)", icon: Package, desc: "Shipped", color: "text-orange-600", bg: "bg-orange-50", email: "Tracking (via DHL)" },
+    { label: "Zen (Alaiko)", icon: Truck, desc: "Fulfillment", color: "text-orange-600", bg: "bg-orange-50" },
+    { label: "Zen (Alaiko)", icon: Package, desc: "Shipped", color: "text-orange-600", bg: "bg-orange-50", email: "Tracking (via DHL)" },
     { label: "Xentral", icon: CheckCircle2, desc: "Tracking Sync", color: "text-indigo-600", bg: "bg-indigo-50" },
     { label: "Shopify", icon: Mail, desc: "Ship Confirm", color: "text-green-600", bg: "bg-green-50", email: "Shipping Confirmation" },
   ];
@@ -826,7 +830,7 @@ function FlowSection() {
             Forward Flow
           </h4>
           <p className="text-xs text-gray-500 leading-relaxed">
-            Shopify Order → Xentral Poll → Invoice/Delivery Note Creation → Zen (Aliko) Fulfillment → Shipping Confirmation back to Shopify.
+            Shopify Order → Xentral Poll → Invoice/Delivery Note Creation → Zen (Alaiko) Fulfillment → Shipping Confirmation back to Shopify.
           </p>
         </div>
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
@@ -1244,7 +1248,7 @@ function ReturnsSection() {
             </div>
             <div className="flex justify-between items-center py-2">
               <span className="text-sm font-medium">Stock updated (if applicable)</span>
-              <span className="px-2 py-1 bg-orange-100 text-orange-700 rounded text-[10px] font-bold">Zen (Aliko)</span>
+              <span className="px-2 py-1 bg-orange-100 text-orange-700 rounded text-[10px] font-bold">Zen (Alaiko)</span>
             </div>
           </div>
           <div className="mt-6 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
@@ -1639,10 +1643,10 @@ function MaterialsSection() {
       <div className="bg-amber-50 p-6 rounded-2xl border border-amber-200">
         <h4 className="text-amber-900 font-bold mb-2 flex items-center gap-2">
           <Truck size={18} />
-          Zen (Aliko) is the Physical Source of Truth
+          Zen (Alaiko) is the Physical Source of Truth
         </h4>
         <p className="text-sm text-amber-800">
-          The warehouse (Zen/Aliko) holds the actual physical inventory. Their system <strong>overwrites Xentral nightly</strong>, 
+          The warehouse (Zen/Alaiko) holds the actual physical inventory. Their system <strong>overwrites Xentral nightly</strong>, 
           and Xentral then pushes to Shopify. This chain ensures accuracy but creates timing considerations.
         </p>
       </div>
@@ -1656,7 +1660,7 @@ function MaterialsSection() {
                 <Truck className="text-orange-600" size={24} />
               </div>
               <div className="flex-1">
-                <h4 className="text-sm font-bold text-orange-900">Zen (Aliko) → Xentral</h4>
+                <h4 className="text-sm font-bold text-orange-900">Zen (Alaiko) → Xentral</h4>
                 <p className="text-xs text-orange-700">Overnight API sync (~2-4 AM). <strong>Overwrites</strong> Xentral numbers completely.</p>
               </div>
               <div className="text-right">
@@ -1708,7 +1712,7 @@ function MaterialsSection() {
           <div className="space-y-4">
             <div className="flex justify-between items-center border-b border-white/20 pb-3">
               <div>
-                <p className="font-medium">Zen (Aliko) Internal Buffer</p>
+                <p className="font-medium">Zen (Alaiko) Internal Buffer</p>
                 <p className="text-[10px] opacity-60">Not reported to Xentral—held back internally</p>
               </div>
               <span className="font-bold text-xl">10</span>
@@ -1738,7 +1742,7 @@ function MaterialsSection() {
           New Stock Delivery: Manual Update Workflow
         </h3>
         <p className="text-sm text-green-800 leading-relaxed mb-6">
-          When new stock is delivered to Zen (Aliko) during the day and you need it available on Shopify <strong>immediately</strong> 
+          When new stock is delivered to Zen (Alaiko) during the day and you need it available on Shopify <strong>immediately</strong> 
           (before the overnight sync), follow this process:
         </p>
         
@@ -1746,7 +1750,7 @@ function MaterialsSection() {
           <div className="p-4 bg-white rounded-xl border border-green-200">
             <div className="w-10 h-10 rounded-full bg-green-600 text-white flex items-center justify-center text-lg font-bold mb-3">1</div>
             <h4 className="text-sm font-bold text-green-900 mb-1">Delivery Arrives</h4>
-            <p className="text-[10px] text-green-700">New stock delivered to Zen (Aliko) warehouse during business hours.</p>
+            <p className="text-[10px] text-green-700">New stock delivered to Zen (Alaiko) warehouse during business hours.</p>
           </div>
           <div className="p-4 bg-white rounded-xl border border-green-200">
             <div className="w-10 h-10 rounded-full bg-green-600 text-white flex items-center justify-center text-lg font-bold mb-3">2</div>
@@ -1783,7 +1787,7 @@ function MaterialsSection() {
               <div className="w-16 h-16 rounded-2xl bg-orange-100 flex items-center justify-center mx-auto mb-2">
                 <Truck className="text-orange-600" size={24} />
               </div>
-              <p className="text-xs font-bold">Zen (Aliko)</p>
+              <p className="text-xs font-bold">Zen (Alaiko)</p>
               <p className="text-[9px] text-gray-400">Physical Stock</p>
             </div>
             
@@ -1943,7 +1947,7 @@ function SamplesSection() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px] font-bold flex-shrink-0">4</span>
-                <span>Fulfillment goes directly to Zen (Aliko)</span>
+                <span>Fulfillment goes directly to Zen (Alaiko)</span>
               </li>
             </ol>
           </div>
@@ -1953,7 +1957,7 @@ function SamplesSection() {
             <ul className="space-y-2 text-xs text-gray-600">
               <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-500" /> Zero Revenue (0.00 €)</li>
               <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-500" /> Manual creation in Xentral only</li>
-              <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-500" /> Direct fulfillment via Zen (Aliko)</li>
+              <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-500" /> Direct fulfillment via Zen (Alaiko)</li>
               <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-500" /> No Shopify involvement</li>
             </ul>
           </div>
@@ -2004,7 +2008,7 @@ function SamplesSection() {
               </div>
               <div>
                 <h4 className="font-bold text-sm">Normal Fulfillment Flow</h4>
-                <p className="text-xs opacity-70">Order follows standard flow: Xentral → Delivery Note → Zen (Aliko) → Shipping.</p>
+                <p className="text-xs opacity-70">Order follows standard flow: Xentral → Delivery Note → Zen (Alaiko) → Shipping.</p>
               </div>
             </div>
           </div>
@@ -2097,7 +2101,7 @@ function SamplesSection() {
             <div className="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center mx-auto mb-2">
               <Truck className="text-orange-600" size={20} />
             </div>
-            <p className="text-[10px] font-bold">Zen (Aliko)</p>
+            <p className="text-[10px] font-bold">Zen (Alaiko)</p>
             <p className="text-[8px] text-gray-400">Fulfillment</p>
           </div>
           
@@ -2194,7 +2198,7 @@ function ReturnsFlowSection() {
             <div className="flex gap-4 items-start">
               <div className="w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center text-sm font-bold flex-shrink-0">2</div>
               <div className="flex-1 p-3 bg-orange-50 rounded-xl border border-orange-100">
-                <p className="text-sm font-bold text-orange-900">Zen (Aliko) Receives Package</p>
+                <p className="text-sm font-bold text-orange-900">Zen (Alaiko) Receives Package</p>
                 <p className="text-xs text-orange-700 mt-1">Warehouse scans return, updates inventory status</p>
               </div>
             </div>
@@ -2395,7 +2399,7 @@ function ReturnsFlowSection() {
               <Truck className="text-orange-600" size={26} />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-bold text-gray-900">Zen (Aliko) Receives</p>
+              <p className="text-sm font-bold text-gray-900">Zen (Alaiko) Receives</p>
               <p className="text-xs text-gray-500 mt-0.5">Package scanned & logged at warehouse</p>
             </div>
             <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center">
@@ -2520,7 +2524,7 @@ function ReturnsFlowSection() {
                     <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center">
                       <span className="text-[9px] font-bold text-green-600">3</span>
                     </div>
-                    <span>Zen (Aliko) ships again</span>
+                    <span>Zen (Alaiko) ships again</span>
                   </div>
                   <div className="pt-3 border-t border-gray-100">
                     <p className="text-[10px] text-gray-400 text-center">📦 New package to customer</p>
@@ -2620,7 +2624,7 @@ function ChannelsSection() {
 
             <div className="p-3 bg-amber-100 rounded-xl border border-amber-300">
               <p className="text-[10px] text-amber-800">
-                <strong>Why FBM?</strong> Amazon has strict rules about glass product delivery. These items ship directly from Zen (Aliko) via Billbee.
+                <strong>Why FBM?</strong> Amazon has strict rules about glass product delivery. These items ship directly from Zen (Alaiko) via Billbee.
               </p>
             </div>
 
@@ -2792,7 +2796,7 @@ function ChannelsSection() {
               <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mx-auto mb-2">
                 <Truck size={20} />
               </div>
-              <p className="text-[10px] font-bold">Zen (Aliko)</p>
+              <p className="text-[10px] font-bold">Zen (Alaiko)</p>
               <p className="text-[8px] opacity-70">Fulfillment</p>
             </div>
             
@@ -2942,10 +2946,10 @@ function ChannelsSection() {
               </tr>
               <tr>
                 <td className="py-3 px-4 font-medium">Fulfillment</td>
-                <td className="py-3 px-4">Zen (Aliko)</td>
-                <td className="py-3 px-4">Zen (Aliko)</td>
+                <td className="py-3 px-4">Zen (Alaiko)</td>
+                <td className="py-3 px-4">Zen (Alaiko)</td>
                 <td className="py-3 px-4">Amazon</td>
-                <td className="py-3 px-4">Zen (Aliko)</td>
+                <td className="py-3 px-4">Zen (Alaiko)</td>
               </tr>
               <tr>
                 <td className="py-3 px-4 font-medium">Invoice Delivery</td>
@@ -3029,6 +3033,412 @@ function GlossarySection() {
   );
 }
 
+
+function BISection() {
+  return (
+    <div className="space-y-8">
+      <div className="space-y-4">
+        <div className="flex items-center gap-3 mb-2">
+          <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">
+            New Section
+          </span>
+        </div>
+        <h2 className="text-4xl font-bold text-gray-900">BI & Reporting</h2>
+        <p className="text-gray-500">Business Intelligence, analytics, and reporting across systems.</p>
+      </div>
+
+      <div className="bg-amber-50 p-6 rounded-2xl border border-amber-200">
+        <h4 className="text-amber-900 font-bold mb-2 flex items-center gap-2">
+          <Calculator size={18} />
+          Data Sources for Reporting
+        </h4>
+        <p className="text-sm text-amber-800">
+          Business Intelligence relies on data from multiple systems. <strong>Xentral is the primary source</strong> for operational data, 
+          but channel-specific insights require pulling from Shopify, Amazon, and other platforms.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6">
+          <h3 className="text-xl font-bold flex items-center gap-2">
+            <Database className="text-indigo-600" size={24} />
+            Xentral Native Reports
+          </h3>
+          <p className="text-gray-600 text-sm leading-relaxed">
+            Xentral provides built-in reporting for operational metrics and financial data.
+          </p>
+          
+          <div className="space-y-4">
+            <div className="p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+              <h4 className="text-sm font-bold text-indigo-900 mb-2">Sales Reports (Verkaufsberichte)</h4>
+              <ul className="text-xs text-indigo-700 space-y-1">
+                <li>• Revenue by product, customer, channel</li>
+                <li>• Order volume and trends</li>
+                <li>• Average order value (AOV)</li>
+              </ul>
+            </div>
+            <div className="p-4 bg-green-50 rounded-xl border border-green-100">
+              <h4 className="text-sm font-bold text-green-900 mb-2">Inventory Reports (Lagerberichte)</h4>
+              <ul className="text-xs text-green-700 space-y-1">
+                <li>• Current stock levels</li>
+                <li>• Stock movements history</li>
+                <li>• Low stock alerts</li>
+              </ul>
+            </div>
+            <div className="p-4 bg-purple-50 rounded-xl border border-purple-100">
+              <h4 className="text-sm font-bold text-purple-900 mb-2">Financial Reports (Finanzberichte)</h4>
+              <ul className="text-xs text-purple-700 space-y-1">
+                <li>• Invoice summaries</li>
+                <li>• Credit memo tracking</li>
+                <li>• Payment reconciliation</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-indigo-600 p-8 rounded-3xl text-white space-y-6">
+          <h3 className="text-xl font-bold flex items-center gap-2">
+            <Calculator size={24} />
+            External BI & Analytics
+          </h3>
+          <p className="opacity-90 text-sm leading-relaxed">
+            For advanced analytics and cross-channel reporting, data is exported to external tools.
+          </p>
+          
+          <div className="space-y-4 pt-4">
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <ShoppingCart size={16} />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm">Shopify Analytics</h4>
+                <p className="text-xs opacity-70">Native dashboard for storefront performance and conversion rates.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <Database size={16} />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm">Google Sheets / Excel</h4>
+                <p className="text-xs opacity-70">Manual data exports for custom analysis and Amazon FBA reconciliation.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <Calculator size={16} />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm">DATEV Export</h4>
+                <p className="text-xs opacity-70">Pre-accounting data exported for tax advisor and final bookkeeping.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
+        <h3 className="font-bold text-lg mb-6 text-center">Key Performance Indicators (KPIs)</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="p-4 bg-green-50 rounded-xl border border-green-100 text-center">
+            <h4 className="text-xs font-bold text-green-600 uppercase mb-1">Revenue</h4>
+            <p className="text-[10px] text-green-700">Net sales after returns</p>
+          </div>
+          <div className="p-4 bg-blue-50 rounded-xl border border-blue-100 text-center">
+            <h4 className="text-xs font-bold text-blue-600 uppercase mb-1">AOV</h4>
+            <p className="text-[10px] text-blue-700">Average Order Value</p>
+          </div>
+          <div className="p-4 bg-purple-50 rounded-xl border border-purple-100 text-center">
+            <h4 className="text-xs font-bold text-purple-600 uppercase mb-1">Return Rate</h4>
+            <p className="text-[10px] text-purple-700">% of orders returned</p>
+          </div>
+          <div className="p-4 bg-orange-50 rounded-xl border border-orange-100 text-center">
+            <h4 className="text-xs font-bold text-orange-600 uppercase mb-1">Stock Turnover</h4>
+            <p className="text-[10px] text-orange-700">Inventory velocity</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-red-50 p-6 rounded-2xl border border-red-200">
+        <h4 className="text-red-900 font-bold mb-3 flex items-center gap-2">
+          <X size={18} className="text-red-500" />
+          Current Reporting Challenges
+        </h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-3 bg-white/50 rounded-xl border border-red-200">
+            <p className="text-xs text-red-800">
+              <strong>Amazon FBA:</strong> No direct sync—requires manual data extraction to Google Sheets.
+            </p>
+          </div>
+          <div className="p-3 bg-white/50 rounded-xl border border-red-200">
+            <p className="text-xs text-red-800">
+              <strong>Sample Orders:</strong> Must filter "BE Samples" project to get accurate revenue figures.
+            </p>
+          </div>
+          <div className="p-3 bg-white/50 rounded-xl border border-red-200">
+            <p className="text-xs text-red-800">
+              <strong>Gift Cards:</strong> Liability tracking requires separate reconciliation.
+            </p>
+          </div>
+          <div className="p-3 bg-white/50 rounded-xl border border-red-200">
+            <p className="text-xs text-red-800">
+              <strong>Cross-Channel:</strong> No unified dashboard across Shopify, Amazon, and ShopApoteke.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+        <h4 className="text-gray-700 font-bold mb-2 flex items-center gap-2">
+          <HelpCircle size={18} className="text-gray-500" />
+          Best Practice
+        </h4>
+        <p className="text-sm text-gray-600">
+          Always use <strong>Xentral Projects</strong> to segment reporting. Filter out "BE Samples" for revenue reports, 
+          and use channel-specific projects to compare performance across Shopify, Amazon, and ShopApoteke.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function SCMSection() {
+  return (
+    <div className="space-y-8">
+      <div className="space-y-4">
+        <div className="flex items-center gap-3 mb-2">
+          <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">
+            New Section
+          </span>
+        </div>
+        <h2 className="text-4xl font-bold text-gray-900">SCM & Xentral</h2>
+        <p className="text-gray-500">Supply Chain Management responsibilities and Xentral workflows.</p>
+      </div>
+
+      <div className="bg-amber-50 p-6 rounded-2xl border border-amber-200">
+        <h4 className="text-amber-900 font-bold mb-2 flex items-center gap-2">
+          <Users size={18} />
+          SCM Team = Master Data Owners
+        </h4>
+        <p className="text-sm text-amber-800">
+          The <strong>SCM Team (Supply Chain Management)</strong> is responsible for all product creation and master data in Xentral. 
+          They are the gatekeepers of product information accuracy.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6">
+          <h3 className="text-xl font-bold flex items-center gap-2">
+            <Package className="text-indigo-600" size={24} />
+            SCM Responsibilities in Xentral
+          </h3>
+          
+          <div className="space-y-4">
+            <div className="p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+              <h4 className="text-sm font-bold text-indigo-900 mb-2">Product Creation</h4>
+              <ul className="text-xs text-indigo-700 space-y-1">
+                <li>• Create all new SKUs in Xentral</li>
+                <li>• Enter complete master data (EAN, tariff numbers, tax rates)</li>
+                <li>• Set up Matrix Products with variants</li>
+                <li>• Configure bundle compositions</li>
+              </ul>
+            </div>
+            <div className="p-4 bg-green-50 rounded-xl border border-green-100">
+              <h4 className="text-sm font-bold text-green-900 mb-2">Supplier Management</h4>
+              <ul className="text-xs text-green-700 space-y-1">
+                <li>• Create and maintain supplier records</li>
+                <li>• Manage purchase orders (Bestellungen)</li>
+                <li>• Track incoming goods (Wareneingänge)</li>
+                <li>• Negotiate pricing and lead times</li>
+              </ul>
+            </div>
+            <div className="p-4 bg-orange-50 rounded-xl border border-orange-100">
+              <h4 className="text-sm font-bold text-orange-900 mb-2">Inventory Planning</h4>
+              <ul className="text-xs text-orange-700 space-y-1">
+                <li>• Monitor stock levels and reorder points</li>
+                <li>• Coordinate with Alaiko for warehouse capacity</li>
+                <li>• Manage safety stock thresholds</li>
+                <li>• Handle discontinued product phase-outs</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-indigo-600 p-8 rounded-3xl text-white space-y-6">
+          <h3 className="text-xl font-bold flex items-center gap-2">
+            <Database size={24} />
+            Key Xentral Modules for SCM
+          </h3>
+          
+          <div className="space-y-4 pt-4">
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <Package size={16} />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm">Artikel (Articles)</h4>
+                <p className="text-xs opacity-70">Product master data, variants, bundles, and pricing.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <Truck size={16} />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm">Einkauf (Purchasing)</h4>
+                <p className="text-xs opacity-70">Purchase orders, supplier management, order proposals.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <Boxes size={16} />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm">Lager (Warehouse)</h4>
+                <p className="text-xs opacity-70">Stock levels, movements, warehouse locations.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <Users size={16} />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm">Lieferanten (Suppliers)</h4>
+                <p className="text-xs opacity-70">Supplier contacts, payment terms, delivery conditions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
+        <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
+          <ArrowRight className="text-indigo-600" size={20} />
+          SCM Product Creation Workflow
+        </h3>
+        <div className="flex items-center justify-center gap-3 flex-wrap">
+          <div className="text-center p-3">
+            <div className="w-14 h-14 rounded-2xl bg-indigo-100 flex items-center justify-center mx-auto mb-2">
+              <Users className="text-indigo-600" size={20} />
+            </div>
+            <p className="text-[10px] font-bold">SCM Creates SKU</p>
+            <p className="text-[8px] text-gray-400">In Xentral</p>
+          </div>
+          
+          <ArrowRight className="text-gray-300" size={16} />
+
+          <div className="text-center p-3">
+            <div className="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center mx-auto mb-2">
+              <CheckCircle2 className="text-green-600" size={20} />
+            </div>
+            <p className="text-[10px] font-bold">Master Data</p>
+            <p className="text-[8px] text-gray-400">EAN, Tax, Tariff</p>
+          </div>
+          
+          <ArrowRight className="text-gray-300" size={16} />
+
+          <div className="text-center p-3">
+            <div className="w-14 h-14 rounded-2xl bg-purple-100 flex items-center justify-center mx-auto mb-2">
+              <Boxes className="text-purple-600" size={20} />
+            </div>
+            <p className="text-[10px] font-bold">Matrix Setup</p>
+            <p className="text-[8px] text-gray-400">If variants exist</p>
+          </div>
+          
+          <ArrowRight className="text-gray-300" size={16} />
+
+          <div className="text-center p-3">
+            <div className="w-14 h-14 rounded-2xl bg-indigo-100 flex items-center justify-center mx-auto mb-2">
+              <Database className="text-indigo-600" size={20} />
+            </div>
+            <p className="text-[10px] font-bold">Shopify Checkbox</p>
+            <p className="text-[8px] text-gray-400">Mark for sync</p>
+          </div>
+          
+          <ArrowRight className="text-gray-300" size={16} />
+
+          <div className="text-center p-3">
+            <div className="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center mx-auto mb-2">
+              <ShoppingCart className="text-green-600" size={20} />
+            </div>
+            <p className="text-[10px] font-bold">Live in Shopify</p>
+            <p className="text-[8px] text-gray-400">Available for sale</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-purple-50 p-8 rounded-3xl border border-purple-100">
+        <h3 className="text-xl font-bold text-purple-900 mb-4 flex items-center gap-2">
+          <Users size={24} className="text-purple-600" />
+          SCM & B2B Key Accounts
+        </h3>
+        <p className="text-sm text-purple-800 leading-relaxed mb-6">
+          For <strong>Big B2B Accounts (Key Accounts)</strong>, SCM handles high-volume pallet orders directly in Xentral, 
+          bypassing the standard Shopify flow.
+        </p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-4 bg-white rounded-xl border border-purple-200">
+            <h4 className="text-sm font-bold text-purple-900 mb-2">Manual Order Creation</h4>
+            <ul className="text-xs text-purple-700 space-y-1">
+              <li>• Create orders directly in Xentral</li>
+              <li>• Apply custom B2B pricing</li>
+              <li>• Generate invoices with payment terms</li>
+            </ul>
+          </div>
+          <div className="p-4 bg-white rounded-xl border border-purple-200">
+            <h4 className="text-sm font-bold text-purple-900 mb-2">Coordination Points</h4>
+            <ul className="text-xs text-purple-700 space-y-1">
+              <li>• HubSpot for relationship management</li>
+              <li>• SAP Team for large account integration</li>
+              <li>• Daniela for key account coordination</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-red-50 p-6 rounded-2xl border border-red-200">
+        <h4 className="text-red-900 font-bold mb-3 flex items-center gap-2">
+          <X size={18} className="text-red-500" />
+          Critical SCM Rules
+        </h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-3 bg-white/50 rounded-xl border border-red-200">
+            <p className="text-xs text-red-800">
+              <strong>Tax Parity:</strong> Tax rates must be identical in Xentral and Shopify. SCM must verify before marking for sync.
+            </p>
+          </div>
+          <div className="p-3 bg-white/50 rounded-xl border border-red-200">
+            <p className="text-xs text-red-800">
+              <strong>EAN Required:</strong> All products need valid EAN codes for Alaiko warehouse operations.
+            </p>
+          </div>
+          <div className="p-3 bg-white/50 rounded-xl border border-red-200">
+            <p className="text-xs text-red-800">
+              <strong>Tariff Numbers:</strong> Required for international shipping. Missing tariffs break customs clearance.
+            </p>
+          </div>
+          <div className="p-3 bg-white/50 rounded-xl border border-red-200">
+            <p className="text-xs text-red-800">
+              <strong>Matrix Before Ecommerce:</strong> SCM must create all variant SKUs before Ecommerce can build the Matrix.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+        <h4 className="text-gray-700 font-bold mb-2 flex items-center gap-2">
+          <HelpCircle size={18} className="text-gray-500" />
+          Collaboration Tip
+        </h4>
+        <p className="text-sm text-gray-600">
+          <strong>Ecommerce depends on SCM.</strong> Before creating a Matrix Product in the Webshop section, 
+          confirm that SCM has created all individual variant SKUs with complete master data. Missing data will block the Shopify sync.
+        </p>
+      </div>
+    </div>
+  );
+}
 function QuestionsSection() {
   return (
     <div className="space-y-12">
@@ -3067,7 +3477,7 @@ function QuestionsSection() {
             <ul className="space-y-3 text-sm text-indigo-800">
               <li className="flex items-center gap-2"><CheckCircle2 size={16} /> Align on B2B companies tag (January)</li>
               <li className="flex items-center gap-2"><CheckCircle2 size={16} /> Connect with Lisa regarding Shopify business accounts</li>
-              <li className="flex items-center gap-2"><CheckCircle2 size={16} /> Review Aliko API documentation for live sync options</li>
+              <li className="flex items-center gap-2"><CheckCircle2 size={16} /> Review Alaiko API documentation for live sync options</li>
             </ul>
           </div>
           
